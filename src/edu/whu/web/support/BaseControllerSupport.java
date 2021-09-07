@@ -91,13 +91,19 @@ public abstract class BaseControllerSupport implements BaseController{
 
 	private boolean executeUpdateMethod(String methodName)throws Exception{
 		//1.获取需要调用的方法对象
+		System.out.println(methodName);
 		Method method=this.services.getClass().getDeclaredMethod(methodName);
+		System.out.println(method);
 		method.setAccessible(true);
 		//2.调用方法
 		return (boolean)method.invoke(services);
 	}
 	
 	
+	protected final boolean update(String actionName)throws Exception
+	{
+		return this.executeUpdateMethod(actionName);
+	}
 	
 	
 	

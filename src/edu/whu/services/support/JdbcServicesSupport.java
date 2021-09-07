@@ -3,7 +3,9 @@ package edu.whu.services.support;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ public abstract class JdbcServicesSupport implements BaseServices
 	//语句列表
 	private final List<PstmMetaData> pstmList=new ArrayList<>();
 	
-	private Map<String, Object> dto =null;
+	protected Map<String, Object> dto =null;
 	
 	/**
 	 * 为Services传递DTO
@@ -33,7 +35,6 @@ public abstract class JdbcServicesSupport implements BaseServices
 	{
 	    this.dto=dto;	
 	}
-	
 	
 	
 	/**************************************************************
@@ -537,6 +538,25 @@ public abstract class JdbcServicesSupport implements BaseServices
 		}
    }	
 
+
+	protected boolean sendMessage(String uid,Object[] list) throws Exception
+	{
+		Date date = new Date();  
+       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       String dateStr = format.format(date);
+       int length=list.length;
+       Object[] content=new Object[length+3];
+       content[0]=uid;
+       for(int i=0;i<length;i++)
+       {
+       	content[i+1]=list[i];
+       }
+       content[length+1]=dateStr;
+       content[length+2]="0";
+		String sql="insert into b05 (uid,b502,b503,b504,b505) values (?,?,?,?,?);";
+		return this.executeUpdate(sql, content)>0;
+	}
+   
    
    /**************************************************************
     * 	                       以下为单一表非事务更新方法

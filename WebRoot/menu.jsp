@@ -1,15 +1,9 @@
 <%@ page language="java" pageEncoding="GBK"%>
-<%String path=request.getContextPath(); %>
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>菜单</title>
-</head>
-</head>
-<body>
-<li><a href="<%=path %>/fun1.jsp"><i    class="fa fa-edit fa-fw"></i>功能1</a></li>
-<li><a href="<%=path %>/fun2.jsp"><i    class="fa fa-edit fa-fw"></i>功能2</a></li>
-<li><a href="<%=path %>/fun3.jsp"><i    class="fa fa-edit fa-fw"></i>功能3</a></li>
-</body>
-</html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<ul class="nav nav-pills nav-stacked menu-ul">
+	<li class="active"><a href="#">功能列表</a></li>
+	<li><a href="main.jsp">主页</a></li>
+	<c:forEach items="${funclist }" var="func">
+		<li>${func }</li>
+	</c:forEach>
+</ul>
